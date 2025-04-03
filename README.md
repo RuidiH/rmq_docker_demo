@@ -1,14 +1,10 @@
-# rmq_docker_demo
+# Rabbitmq Docker Demo
 
 ### Install 
-    - Docker
-    - Golang
+[Docker](https://www.docker.com/products/docker-desktop/)
+[Golang](https://go.dev/dl/)
 
-### Setup
-go to ./consumer and ./publisher and run
-```
-    go mod tidy
-```
+Note: For malware detection issue when installing Docker, see [here](https://github.com/docker/for-mac/issues/7527)
 
 ### Run
 ```
@@ -30,3 +26,7 @@ GET
 ```
     docker-compose down
 ```
+
+### Resource
+
+[Claude](https://claude.northeastern.edu/login/)
