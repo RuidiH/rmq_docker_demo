@@ -1,22 +1,30 @@
 services:
   publisher:
-    build: ./publisher
+    build: ./producer
     ports:
       - "8080:8080"
     depends_on:
-      - rabbitmq
+      rabbitmq:
+        condition: service_healthy
 
   consumer:
     build: ./consumer
     depends_on:
-      - rabbitmq
-      - mysql
+      rabbitmq:
+        condition: service_healthy
+      mysql:
+        condition: service_healthy 
 
   rabbitmq:
     image: rabbitmq:3-management
     ports:
       - "5672:5672"
-      - "15672:15672"
+      - "15733:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   mysql:
     image: mysql:5.7
@@ -27,3 +35,8 @@ services:
       - "3306:3306"
     volumes:
       - ./mysql-init.sql:/docker-entrypoint-initdb.d/mysql-init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-pexample"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
